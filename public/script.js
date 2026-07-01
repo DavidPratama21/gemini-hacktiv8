@@ -57,13 +57,25 @@ form.addEventListener('submit', async (event) => {
 function appendMessage(sender, text) {
   const message = document.createElement('div');
   message.classList.add('message', sender);
-  message.textContent = text;
+  
+  if (sender === 'bot') {
+    const avatar = document.createElement('div');
+    avatar.classList.add('avatar');
+    avatar.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.1 7.1"/></svg>`;
+    message.appendChild(avatar);
+  }
+  
+  const bubble = document.createElement('div');
+  bubble.classList.add('bubble');
+  bubble.textContent = text;
+  message.appendChild(bubble);
+
   chatBox.appendChild(message);
   chatBox.scrollTop = chatBox.scrollHeight;
-  return message;
+  return bubble; // Return the bubble so we can update its text later
 }
 
-function updateMessage(element, text) {
-  element.textContent = text;
+function updateMessage(bubbleElement, text) {
+  bubbleElement.textContent = text;
   chatBox.scrollTop = chatBox.scrollHeight;
 }
